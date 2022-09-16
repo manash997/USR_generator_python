@@ -7,6 +7,7 @@ import re
 parser_file_input="txt_files/parser-output.txt"
 prune_file_input="txt_files/prune-output.txt"
 wx_file_input="txt_files/wx.txt"
+concept_dictionary_input="H_concept-to-mrs-rels.dat"
 #Open the parser file,and store its contents into a 2d-list
 parser_output_list=[]
 with open(parser_file_input,"r",encoding="UTF-8") as pf:
@@ -29,6 +30,13 @@ wx_output_list=[]
 with open(wx_file_input,"r",encoding="UTF-8") as pf:
     wx_list=pf.readlines()
     wx_output_list=wx_list[0].split()
+
+#Open Concept dictionary and store it's contents into a list
+concept_dictionary_list=[]
+with open(concept_dictionary_input,"r") as cd:
+    for line in cd:
+        concept_real=line.split("\t")[1]
+        concept_dictionary_list.append(concept_real)
 #---------------------------------------------------------------
 
 #--------------------------------------------------------------------
@@ -148,8 +156,15 @@ print(matched_tams)
 longest_key_temp=0
 for key in matched_tams.keys():
     longest_key_temp=len(key)'''
-    
-        
+#---------------------------------------------------------------------   
+def search_concept(search_word):
+    key=0
+    for word in concept_dictionary_list:
+        if word==search_word:
+            key=1
+            break
+    if key==0:
+            print("Warning:{} not found in dictionary.".format(search_word))      
 #----------------------------------------------------------------
 #To print 1st row of USR which is the Original Sentence
 def get_row1():
@@ -703,6 +718,18 @@ def get_row10():
             sentence_type.append("exclamatory")
     return sentence_type
 #--------------------------------------------------------------------
+def get_warning(row_2):
+    for concept in row_2:
+        if "_1" in concept:
+            if "+" in concept and "-" in concept:
+                search_word=concept.split("+")[1].split("-")[0]
+                search_concept(search_word)
+            elif "-" in concept:
+                search_word=concept.split("-")[0]
+                search_concept(search_word)
+            else:
+                search_concept(concept)
+
 if __name__=="__main__":
     #row2 copy is a newlist,a copy of older one just to replace the pronouns.
     
@@ -723,6 +750,7 @@ if __name__=="__main__":
         row_8=get_row_unk(row_2)
         row_9=get_row_unk(row_2)
         row_10=get_row10()
+        get_warning(row_2)
         print(row_1)
         print(",".join(row_2_temp))
         print(",".join(map(str,row_3)))
@@ -734,8 +762,9 @@ if __name__=="__main__":
         print(",".join(row_8))
         print(",".join(row_9))
         print(",".join(row_10))
-    
-
+        
+                    
+                
 
         
         
