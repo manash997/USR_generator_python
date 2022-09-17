@@ -617,6 +617,7 @@ def get_row6(row_2):
     root_word_from_wx=[]#list of root words from their wx words
     dependency_col7_list=[]#list of col7 values in parser output
     correct_index_list=[]#list of final indexexs of dependencies in row2
+    pos_tag_list=[]#list of pos tags of words present.
     #print(row_2)
     for concepts in row_2:
         if "+" in concepts:
@@ -642,10 +643,13 @@ def get_row6(row_2):
     for index_value in row2_wx_index_iter:
         par_value=parser_output_dict[index_value]
         class_word_index=int(par_value[6])
+        pos_tag_value=par_value[3]
         dependency=par_value[7]
         class_word_index_list.append(class_word_index)
         dependency_col7_list.append(dependency)
+        pos_tag_list.append(pos_tag_value)
     #print(class_word_index_list)
+    #print(pos_tag_list)
     
     
     for index_6 in class_word_index_list:
@@ -677,15 +681,24 @@ def get_row6(row_2):
         if dependency_col7_list[val]=="main":
             row_6.insert(val,"0:main")
         else:
+            #print(pos_tag_list[val])
             index_6a=str(correct_index_list[val])
             dependency_col7=dependency_col7_list[val]
-            if dependency_col7=="nmod__adj":
+            if  pos_tag_list[val]=="JJ":
                 dependency_col7="mod"
+            elif pos_tag_list[val]=="QC":
+                dependency_col7="card"
+            elif pos_tag_list[val]=="QO":
+                dependency_col7="ord"
+            elif dependency_col7=="lwg__neg":
+                dependency_col7="neg"
+            elif dependency_col7=="r6-k2":
+                dependency_col7="k2"
             row_6.append(index_6a+":"+dependency_col7)
     #for word in row_6:
      #  if "r6-k2" in word:
       #  word.replace("r6-k2","r6") 
-    for inx in range(len(row_6)):
+    '''for inx in range(len(row_6)):
         if "lwg__neg" in row_6[inx]:
             word=row_6[inx]
             init_value=word.split(":")[0]
@@ -693,7 +706,7 @@ def get_row6(row_2):
         if "r6-k2" in row_6[inx]:
             word=row_6[inx]
             init_value=word.split(":")[0]
-            row_6[inx]=init_value+":"+"k2"
+            row_6[inx]=init_value+":"+"k2"'''
 
     return row_6
 #----------------------------------------------------------------------
