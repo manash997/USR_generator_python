@@ -30,7 +30,7 @@ wx_output_list=[]
 with open(wx_file_input,"r",encoding="UTF-8") as pf:
     wx_list=pf.readlines()
     wx_output_list=wx_list[0].split()
-
+#print(wx_output_list)
 #Open Concept dictionary and store it's contents into a list
 concept_dictionary_list=[]
 with open(concept_dictionary_input,"r") as cd:
@@ -52,16 +52,17 @@ prune_output_trimmed_list=prune_output_list[prune_len_init+2:prune_len_final-1]
 #---------------------------------------------------------------------
 root_word_dict_reverse={} #key==wx_word and value is root_word from prune output
 root_word_dict={} #key=root_word and value is wx_word
-for line in prune_output_trimmed_list:
-    wx_word=line[1]
-    vm_row_new=line[4]
+for line in range (len(prune_output_trimmed_list)):
+    #wx_word=line[1]
+    wx_word=wx_output_list[line]
+    vm_row_new=prune_output_trimmed_list[line][4]
     vm_row_split_new=vm_row_new.split(",")
     root_word_prune=suffix=vm_row_split_new[0][4:]
     root_word_dict_reverse[wx_word]=root_word_prune
     if root_word_prune:
         root_word_dict[root_word_prune]=wx_word
 #print(root_word_dict_reverse.get("PlOYpI"))
-#print(root_word_dict_reverse)
+#print(root_word_dict_reverse["oYPisa"])
 #print(root_word_dict)
 #----------------------------------------------------------------
 
@@ -335,10 +336,12 @@ def search_tam_row2(concept_list):
             #Word after hyphen in verb group
             root_concept=concept_with_hyphen.split("-")[0] 
             #Word before hyphen in verb group
-            #print(root_concept)
+            #print("root_concept:",root_concept)
             root_concept=root_concept.strip("_1")
             if "+" in root_concept:
                 root_concept=root_concept.split("+")[1]
+            if "_1" in root_concept:
+                root_concept=root_concept.strip("_1")
             wx_word_for_root_concept=root_word_dict[root_concept]
             #this is the original word for root_concept
             #print(wx_word_for_root_concept)
@@ -763,7 +766,7 @@ if __name__=="__main__":
         row_8=get_row_unk(row_2)
         row_9=get_row_unk(row_2)
         row_10=get_row10()
-        get_warning(row_2)
+        #get_warning(row_2)
         print(row_1)
         print(",".join(row_2_temp))
         print(",".join(map(str,row_3)))
