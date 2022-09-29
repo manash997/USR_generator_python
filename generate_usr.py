@@ -670,9 +670,9 @@ def get_row6(row_2):
     for word in class_word_list:
         if word==0:
             root_word_from_wx.append(0)
-        for key,value in root_word_dict.items():
-            if value==word:
-                root_word_from_wx.append(key)
+        else :
+            key=root_word_dict_reverse[word]
+            root_word_from_wx.append(key)
     #print("root of that class:",root_word_from_wx)
     #Now we have to find,where this word is in row_2 and get that index
     for word in root_word_from_wx:
