@@ -199,8 +199,10 @@ VM_already_visited={} #To check if VM is already updated or not.Used only for ve
 def for_VM_no__1(row_2):
     for word in range(len(row_2)):
         if "+" in row_2[word]:
-            ini_part=row_2[word].split("+")[0].strip("_1")
-            final_part=row_2[word].split("+")[1]
+            ini_part=row_2[word].split("+",1)[0].strip("_1")
+            
+            final_part=row_2[word].split("+",1)[1]
+            #print("finalpart:",final_part)
             row_2[word]=ini_part+"+"+final_part
     return row_2
 
@@ -413,6 +415,7 @@ def get_row2():
         if pos_tag=="PSP" or pos_tag=="NST" or pos_tag=="SYM":
             continue
         elif pos_tag=="VM": #Do not add suffix for these words because we have to do TAM search on them and it creates a problem later.
+            #print("this is the word:",word)
             root_word=get_root_word(word)
             vector_8th=get_8th_vector(word)
             if word in VM_already_visited:
@@ -439,7 +442,7 @@ def get_row2():
                     break
             
             VM_already_visited[word]=final_word #adding to the dictionary
-            #print(VM_already_visited)
+            #sprint("this is final word:",final_word)
             concept_list.append(final_word)
         elif pos_tag=="VAUX" :
             if word in already_visited:
@@ -469,7 +472,7 @@ def get_row2():
     
     #print(concept_list)
     concept_list_final=search_tam_row2(concept_list)
-    #print(concept_list_final)
+    #print("concept list final:",concept_list_final)
     return concept_list_final
 
 #--------------------------------------------------------------------
@@ -651,8 +654,8 @@ def get_row6(row_2):
         class_word_index_list.append(class_word_index)
         dependency_col7_list.append(dependency)
         pos_tag_list.append(pos_tag_value)
-    #print(class_word_index_list)
-    #print(pos_tag_list)
+    #print("class_word_indx_list:",class_word_index_list)
+    #print("pos tag:",pos_tag_list)
     
     
     for index_6 in class_word_index_list:
@@ -700,7 +703,7 @@ def get_row6(row_2):
             row_6.append(index_6a+":"+dependency_col7)
     #for word in row_6:
      #  if "r6-k2" in word:
-      #  word.replace("r6-k2","r6") 
+      #  word.replace("r6-k2","r6")
     '''for inx in range(len(row_6)):
         if "lwg__neg" in row_6[inx]:
             word=row_6[inx]
@@ -750,8 +753,9 @@ if __name__=="__main__":
     #row2 copy is a newlist,a copy of older one just to replace the pronouns.
     
         row_2=get_row2()
+        #print("Final output main:",row_2)
         row_2_final=for_VM_no__1(row_2)
-        #print("Final output:",row_2_final)
+        #print("Final output main:",row_2_final)
         row_1=get_row1()
         #row_2=get_row2()
         #print(row_2)
@@ -772,7 +776,6 @@ if __name__=="__main__":
         print(",".join(map(str,row_3)))
         print(",".join(row_4))
         print(",".join(map(str,row_5)))
-        
         print(",".join(row_6))
         print(",".join(row_7))
         print(",".join(row_8))
