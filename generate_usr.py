@@ -239,8 +239,8 @@ def for_handling_nnc_tag_or_pof(word,class_index):
     if root_word_class in used_root_word:
         root_word_class=updated_root_word[root_word_class]
         concept_list.remove(updated_root_word[root_word_class])
-        updated_root_word[root_word_class]=root_word+"+"+root_word_class
-
+        #updated_root_word[root_word_class]=root_word+"+"+root_word_class
+        #print("updated root word dict:",updated_root_word[root_word_class]) 
         
     else:
         used_root_word.add(root_word_class)
@@ -418,7 +418,7 @@ def get_row2():
                 word_info=line[3]
         #main condition check begins here:
         
-        if pos_tag=="PSP" or pos_tag=="NST" or pos_tag=="SYM":
+        if pos_tag=="PSP"  or pos_tag=="SYM":
             continue
         elif pos_tag=="VM": #Do not add suffix for these words because we have to do TAM search on them and it creates a problem later.
             #print("this is the word:",word)
@@ -482,7 +482,7 @@ def get_row2():
     return concept_list_final
 
 #--------------------------------------------------------------------
-    
+  
 
 #Row 3 of USR:Index for concepts
 def get_row3(concept_list):
@@ -618,6 +618,7 @@ def get_row2_index(word):
     return corr_index
 
 def get_row6(row_2):
+    
     #print("This is row_2:",row_2)
     #wx_word_inx=0
     row_6=[]
@@ -709,7 +710,7 @@ def get_row6(row_2):
             row_6.append(index_6a+":"+dependency_col7)
     #for word in row_6:
      #  if "r6-k2" in word:
-      #  word.replace("r6-k2","r6")
+      #  word.replace("r6-k2","r6")'''
     '''for inx in range(len(row_6)):
         if "lwg__neg" in row_6[inx]:
             word=row_6[inx]
@@ -771,7 +772,6 @@ if __name__=="__main__":
         row_4=get_row4(row_2)
         row_5=get_row5(row_2)
         row_6=get_row6(row_2)
-        #get_row6(row_2)
         row_7=get_row_unk(row_2)
         row_8=get_row_unk(row_2)
         row_9=get_row_unk(row_2)
