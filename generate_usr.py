@@ -8,7 +8,7 @@ import re
 parser_file_input="txt_files/parser-output.txt"
 prune_file_input="txt_files/prune-output.txt"
 wx_file_input="txt_files/wx.txt"
-concept_dictionary_input="H_concept-to-mrs-rels.dat"
+#concept_dictionary_input="H_concept-to-mrs-rels.dat"
 #Open the parser file,and store its contents into a 2d-list
 parser_output_list=[]
 with open(parser_file_input,"r",encoding="UTF-8") as pf:
@@ -33,11 +33,12 @@ with open(wx_file_input,"r",encoding="UTF-8") as pf:
     wx_output_list=wx_list[0].split()
 #print(wx_output_list)
 #Open Concept dictionary and store it's contents into a list
-concept_dictionary_list=[]
+'''concept_dictionary_list=[]
 with open(concept_dictionary_input,"r") as cd:
     for line in cd:
-        concept_real=line.split("\t")[1]
-        concept_dictionary_list.append(concept_real)
+        concept_real=line.split()
+        #print(concept_real)
+        concept_dictionary_list.append(concept_real)'''
 #---------------------------------------------------------------
 
 #--------------------------------------------------------------------
@@ -72,9 +73,10 @@ for line in range (len(prune_output_trimmed_list)):
 suffix_dictionary={}
 word=str()
 for line in prune_output_trimmed_list:
-    #print(line[4])
+    #print(line)
     wx_word=line[1]
     vm_row_new=line[4]
+    #print(vm_row_new)
     vm_row_split_new=vm_row_new.split(",")
     suffix=vm_row_split_new[7][:-2].partition("'")[0]
     #print(vm_row_split_new)
@@ -179,6 +181,7 @@ def get_row1():
     sent_temp=file_temp.readline()
     file_temp.close()
     row1=row1+""+sent_temp
+    row1=row1.strip()
     return row1
 
 #To generate groups,"Not clear about it's output.please refer"
