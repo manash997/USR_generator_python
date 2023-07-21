@@ -8,7 +8,10 @@ import re
 parser_file_input="txt_files/parser-output.txt"
 prune_file_input="txt_files/prune-output.txt"
 wx_file_input="txt_files/wx.txt"
+<<<<<<< HEAD
 ner_file_input="txt_files/ner_output"
+=======
+>>>>>>> e0907e22017fa61e1fb3a8b15fe9114b4ec88de4
 #concept_dictionary_input="H_concept-to-mrs-rels.dat"
 #Open the parser file,and store its contents into a 2d-list
 parser_output_list=[]
@@ -92,7 +95,11 @@ for sent in prune_output_list:
 #creating a suffix dictionary where key is word and value is suffix a.k.a 8th vector
 suffix_dictionary={}
 word=str()
+<<<<<<< HEAD
 '''for line in prune_output_trimmed_list:
+=======
+for line in prune_output_trimmed_list:
+>>>>>>> e0907e22017fa61e1fb3a8b15fe9114b4ec88de4
     #print(line)
     wx_word=line[1]
     vm_row_new=line[4]
@@ -226,7 +233,10 @@ def get_row1():
     file_temp.close()
     row1=row1+""+sent_temp
     row1=row1.strip()
+<<<<<<< HEAD
     #print("row1:",row1)
+=======
+>>>>>>> e0907e22017fa61e1fb3a8b15fe9114b4ec88de4
     return row1
 
 #To generate groups,"Not clear about it's output.please refer"
