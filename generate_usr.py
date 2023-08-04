@@ -540,7 +540,7 @@ def get_row2():
                 
             concept_list.append(final_word)
         elif pos_tag=="PRPC":
-            #print("word in use",word)
+            print("word in use",word)
             final_word=for_handling_prpc(word,word_index)
             concept_list.append(final_word)
         else:
