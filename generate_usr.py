@@ -68,7 +68,7 @@ for sent in prune_output_list:
     suffix_dictionary[wx_word]=suffix
 
     
-print(suffix_dictionary)
+#print("sd",suffix_dictionary)
     #print(type(word))
 #---------------------------------------------------------------------
 #Creating a dictionary for wx_words and their indexes
@@ -253,11 +253,13 @@ def word_search_from_end(search_word):
     #print("search_word:",search_word)
     match_key_list=[]
     matched_tams={}
-    real_tam_search=search_word
+    real_tam_search=search_word.strip()
     for line in TAM_dictionary_list:
         
         for value in line:
+            #print(value)
             if real_tam_search.endswith(value) and  value!="" :
+                #print("val:",value)
                 key=value
                 line0_length=len(line[0])
                 if key not in matched_tams.keys():
@@ -278,7 +280,7 @@ def word_search_from_end(search_word):
             key_tam=matched_tams[longest_key_value]
     
         
-    #print(key_tam)
+        #print("kt",key_tam)
     #key_tam is the value of longest matched TAM from TAM dictionary.
         return key_tam
     except Exception as e:
@@ -292,20 +294,20 @@ def word_search_from_end(search_word):
 def search_tam_row2(concept_list):
     ranjak_list= ["cala", "dAla", "cuka", "xe", "le", "bETa", "uTa", "jA", "padZa", "A"]
     tam_list_row2=identify_vb(concept_list)
-    print("This is our vb:",tam_list_row2)
+    #print("This is our vb:",tam_list_row2)
      
     for concept_with_hyphen in tam_list_row2:
-        print("The verb group to be replaced:",concept_with_hyphen)
+        #print("The verb group to be replaced:",concept_with_hyphen)
         #concept_with_hyphen is the word in concept list that we have to replace
         if concept_with_hyphen.split("-")[1]=="":
             
             real_tam_temp="0"
         else:
             real_tam_temp=concept_with_hyphen.split("-")[1]
-        print(real_tam_temp)
+        #print(real_tam_temp)
         if real_tam_temp=="0":
             root_concept=concept_with_hyphen.split("-")[0]
-            print("rc:",root_concept)
+            #print("rc:",root_concept)
             search_word=root_concept.strip("_1")
             if "+" in root_concept:
                 search_word=root_concept.split("+")[1]
@@ -325,7 +327,7 @@ def search_tam_row2(concept_list):
             #Word after hyphen in verb group
             root_concept=concept_with_hyphen.split("-")[0] 
             #Word before hyphen in verb group
-            print("root_concept:",root_concept)
+            #print("root_concept:",root_concept)
             root_concept=root_concept.strip("_1")
             if "+" in root_concept:
                 root_concept=root_concept.split("+")[1]
@@ -333,21 +335,35 @@ def search_tam_row2(concept_list):
                 root_concept=root_concept.strip("_1")
             wx_word_for_root_concept=root_word_dict[root_concept]
             #this is the original word for root_concept
-            print(wx_word_for_root_concept)
+            #print(wx_word_for_root_concept)
             #real_tam_temp=real_tam_temp.strip("_")
             for char in real_tam_temp:
                 if char=="_":
                     real_tam_temp=real_tam_temp.replace(char," ")
-            print("real_tam_temp",real_tam_temp)
-            root_of_real_tam_temp=root_word_dict_reverse[real_tam_temp.strip()]
-            if root_of_real_tam_temp in ranjak_list:
-                real_tam_temp=suffix_dictionary[real_tam_temp.strip()]
-
-            real_tam_search=wx_word_for_root_concept+""+real_tam_temp
+            #print("real_tam_temp",real_tam_temp)
+            
+            ranjak_search_vaux=real_tam_temp.split()[0]
+            #print("rsv",ranjak_search_vaux)
+            add_to_vaux=""
+            # add_to_vaux=real_tam_temp.split()[1]
+            # print(add_to_vaux)
+            try:
+                add_to_vaux=real_tam_temp.split()[1]
+            except:
+                pass
+            root_of_ranjak_search_vaux=root_word_dict_reverse[ranjak_search_vaux.strip()]
+            if root_of_ranjak_search_vaux in ranjak_list:
+                real_tam_temp=root_word_dict[root_of_ranjak_search_vaux]
+                real_tam_temp=suffix_dictionary[real_tam_temp.strip()]+" "+add_to_vaux
+            else:  
+                real_tam_temp=ranjak_search_vaux+" "+add_to_vaux
+            #print("rtm",real_tam_temp)
+            real_tam_search=wx_word_for_root_concept+" "+real_tam_temp
             #if "_" in real_tam_search:
             #    real_tam_search=real_tam_search.strip("_")
-            print("real tam search_2:",real_tam_search) #This is the real TAM that we work with,searching in the backend happens on this.
+            #print("real tam search_2:",real_tam_search) #This is the real TAM that we work with,searching in the backend happens on this.
             key_tam=word_search_from_end(real_tam_search)
+            #print("key_tam",key_tam)
             #The above function,returns the actual TAM matching from the TAM dictionary
             #if no match found in TAM dictionary,it returns none.
             #print("print key_tam is:",key_tam)
